@@ -1,12 +1,11 @@
 import java.util.Scanner
-import kotlin.collections.ArrayList
 
 fun main() {
-    val hololiveMember : ArrayList<String> = ArrayList()
-    val hololiveAge : ArrayList<String> = ArrayList()
+    val hololiveMember  = mutableListOf<String>()
+    val hololiveAge  = mutableListOf<String>()
     addMember(hololiveMember)
     addAge(hololiveAge)
-    val number = 5
+    val number = 0
     val chosenMember : String = hololiveMember[number]
     val chosenMemberAge : String = hololiveAge[number]
     do{
@@ -16,6 +15,31 @@ fun main() {
         val option = scan.nextInt()
         menuOption(option,chosenMember,chosenMemberAge)
     } while (option != 99)
+}
+
+//    Data Class Example
+data class DataUser(val name : String, val age : String) {
+    fun intro() {
+        println("My name is $name, I am $age years old")
+    }
+}
+
+//    Data Class Procedure Example
+fun dataClassesExample(name: String, age: String) {
+    val dataUser = DataUser(name, age)
+    val dataUser4 = dataUser.copy(age = "18")
+    println(dataUser4)
+    dataUser4.intro()
+}
+
+//    Destructuring Declaration Example
+fun destructuringDeclarationExample(name: String, age: String) {
+    val dataUser = DataUser(name, age)
+
+    val newName = dataUser.component1()
+    val newAge = dataUser.component2()
+
+    println("My name is $newName, I am $newAge years old")
 }
 
 //    Safe Calls Operator Example
@@ -121,7 +145,7 @@ fun findValueUsingDownTo(){
 }
 
 //    Add member to ArrayList
-fun addMember(memberList: ArrayList<String>) {
+fun addMember(memberList: MutableList<String>) {
     memberList.add(MemberData.GURA.memberName)
     memberList.add(MemberData.AME.memberName)
     memberList.add(MemberData.INA.memberName)
@@ -130,13 +154,41 @@ fun addMember(memberList: ArrayList<String>) {
     memberList.add(MemberData.HOPE.memberName)
 }
 //    Add member age to ArrayList
-fun addAge(ageList: ArrayList<String>) {
+fun addAge(ageList: MutableList<String>) {
     ageList.add(MemberData.GURA.memberAge)
     ageList.add(MemberData.AME.memberAge)
     ageList.add(MemberData.INA.memberAge)
     ageList.add(MemberData.KIARA.memberAge)
     ageList.add(MemberData.CALLI.memberAge)
     ageList.add(MemberData.HOPE.memberAge)
+}
+
+//    Loop Break Example
+fun loopBreak() {
+    val listOfInt = listOf(1,2,null,4,5)
+    for (i in listOfInt) {
+        if (i == null) break
+        print(i)
+    }
+    println()
+}
+
+//    Loop Continue Example
+fun loopContinue() {
+    val listOfInt = listOf(1,2,null,4,5)
+    for (i in listOfInt) {
+        if (i == null) continue
+        print(i)
+    }
+    println()
+}
+
+//    Label Expressions Example
+fun labels(text: String) {
+    loop@ for ( i in 1..10) {
+        println(text)
+        if(i == 5) break@loop
+    }
 }
 
 //    Print member details
@@ -165,6 +217,8 @@ fun menuOption(option: Int, chosenMember: String, chosenMemberAge: String) {
         4 -> showOperatorMenu()
         5 -> showLoopingMenu(chosenMember)
         6 -> showRangeMenu()
+        7 -> showLoopBreakMenu(chosenMember)
+        8 -> showDataClassesCollectionMenu(chosenMember, chosenMemberAge)
     }
 }
 
@@ -195,6 +249,23 @@ fun rangeMenuOption(option: Int) {
     }
 }
 
+//    Range Option Using When Expression
+fun loopBreakMenuOption(option: Int, text: String) {
+    when(option) {
+        1 -> loopBreak()
+        2 -> loopContinue()
+        3 -> labels(text)
+    }
+}
+
+//    DataClassesCollection Option Using When Expression
+fun dataClassesCollectionMenuOption(option: Int, name: String, age: String) {
+    when(option) {
+        1 -> dataClassesExample(name,age)
+        2 -> destructuringDeclarationExample(name,age)
+    }
+}
+
 //    Show Menu
 fun showMenu(chosenMember : String){
     welcome(chosenMember)
@@ -204,6 +275,8 @@ fun showMenu(chosenMember : String){
     println("4. Operator")
     println("5. Looping")
     println("6. Range")
+    println("7. Break and Continue")
+    println("8. Data Classes and Collections")
 }
 
 //    Show Operator Menu
@@ -240,4 +313,27 @@ fun showRangeMenu(){
     val scan = Scanner(System.`in`)
     val rangeOption = scan.nextInt()
     rangeMenuOption(rangeOption)
+}
+
+//    Show LoopBreak Menu
+fun showLoopBreakMenu(text: String){
+    println("Range Menu")
+    println("1. Loop Break")
+    println("2. Loop Continue")
+    println("3. Label Expressions")
+    print("Option : ")
+    val scan = Scanner(System.`in`)
+    val loopBreakOption = scan.nextInt()
+    loopBreakMenuOption(loopBreakOption,text)
+}
+
+//    Show DataClassesCollection Menu
+fun showDataClassesCollectionMenu(name: String, age: String){
+    println("DataClassesCollection Menu")
+    println("1. DataClasses")
+    println("2. Destructuring Declaration")
+    print("Option : ")
+    val scan = Scanner(System.`in`)
+    val dataClassesCollectionOption = scan.nextInt()
+    dataClassesCollectionMenuOption(dataClassesCollectionOption,name,age)
 }
